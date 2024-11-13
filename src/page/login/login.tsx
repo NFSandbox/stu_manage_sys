@@ -3,13 +3,18 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 // import { useNavigate } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 
+import { ElectronApiType } from "@/preload";
+
 import "@/index.css";
 import "@/global.css";
+
+const electronApi: ElectronApiType = (window as any).electron;
 
 export function LoginCard() {
   // const navigate = useNavigate();
   function handleFinish() {
-    console.log("Login clicked");
+    window.console.log("Login clicked");
+    electronApi.window.open.main();
   }
 
   return (
