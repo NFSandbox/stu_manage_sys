@@ -37,6 +37,14 @@ const config: ForgeConfig = {
               js: "./src/preload.ts",
             },
           },
+          {
+            html: "./src/page/login/index.html",
+            js: "./src/page/login/login.tsx",
+            name: "login_window",
+            // preload: {
+            //   js: "./src/preload.ts",
+            // },
+          },
         ],
       },
     }),
