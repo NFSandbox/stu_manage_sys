@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-// import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 
 import { ElectronApiType } from "@/preload";
@@ -44,7 +44,10 @@ export function LoginCard() {
             Log in
           </Button>
           <div className="py-2">
-            或者 <a href="">注册新账号</a>
+            或者{" "}
+            <Button type="text" href="">
+              注册新账号
+            </Button>
           </div>
         </Form.Item>
       </Form>
