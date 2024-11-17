@@ -1,4 +1,4 @@
-import { Container, FlexDiv } from "@/component/container";
+import { Container, FlexDiv } from "@/components/container";
 import { classNames } from "@/tools/css_tools";
 
 interface OperationBlockProps {

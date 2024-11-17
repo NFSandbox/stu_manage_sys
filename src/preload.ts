@@ -4,8 +4,8 @@
 // Preload (Isolated World)
 import { contextBridge, ipcRenderer } from "electron";
 
-import { preloadScript as infoManagerPreloadScript } from "@/main/info_manager";
-
+import { stuDataApi } from "@/main/info_manager";
+import { dialogApi } from "@/main/popper";
 const windowApi = {
   open: {
     main: () => {
@@ -16,10 +16,10 @@ const windowApi = {
 
 const api = {
   window: windowApi,
+  dialog: dialogApi,
+  stuData: stuDataApi,
 };
 
 export type ElectronApiType = typeof api;
 
 contextBridge.exposeInMainWorld("electron", api);
-
-infoManagerPreloadScript();

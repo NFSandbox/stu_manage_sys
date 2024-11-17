@@ -173,9 +173,9 @@ export function registerStuDataInvokeHandler() {
   ipcMain.handle(
     "stuData:invoke",
     (event, method: StuDataAllowedFunc, args: any[]) => {
-      if (typeof stuData[method] === "function") {
+      if (typeof stuDataApi[method] === "function") {
         try {
-          return (stuData[method] as any)(...args);
+          return (stuDataApi[method] as any)(...args);
         } catch (error) {
           throw { title: error.title || "Error", description: error.message };
         }
@@ -189,7 +189,7 @@ export function registerStuDataInvokeHandler() {
   );
 }
 
-const stuData = {
+export const stuDataApi = {
   invoke: (method: StuDataAllowedFunc, ...args: unknown[]) =>
     ipcRenderer.invoke("stuData:invoke", method, args),
   addStudent: (student: { stuId: string; name: string; major?: string }) =>
@@ -244,9 +244,3 @@ const stuData = {
       subjectId,
     ]) as Promise<{ stuId: string; subId: string; score?: number }[]>,
 };
-
-export type StuDataApiType = typeof stuData;
-
-export function preloadScript() {
-  contextBridge.exposeInMainWorld("electron", { stuData: stuData });
-}

@@ -3,6 +3,7 @@ import "./global.css";
 
 // Pages
 import { LoginCard } from "@/page/login/login";
+import { StudentPage } from "@/page/student/page";
 
 // Plugins
 import { createHashRouter, RouterProvider, Link } from "react-router-dom";
@@ -17,6 +18,7 @@ const router = createHashRouter([
         <Link to="/login" target="_blank">
           Login
         </Link>
+        <Link to="/students">Students</Link>
       </div>
     ),
   },
@@ -27,6 +29,10 @@ const router = createHashRouter([
   {
     path: "/home",
     element: <p>Home</p>,
+  },
+  {
+    path: "/students",
+    element: <StudentPage></StudentPage>,
   },
 ]);
 

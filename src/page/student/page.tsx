@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 // Components
-import { Center, FlexDiv, Container } from "@/component/container";
-import { Title } from "@/component/title";
+import { Center, FlexDiv, Container } from "@/components/container";
+import { Title } from "@/components/title";
 import { Segmented, Tabs, Input, Button, Table } from "antd";
 import type { TabsProps } from "antd";
 import { Form } from "antd";
@@ -11,10 +11,12 @@ import { OperationBlock } from "@/cus_components/op_block";
 // Tools
 import { classNames } from "@/tools/css_tools";
 
-// Api
-import { StuDataApiType } from "@/main/info_manager";
+// Preload type
+import { ElectronApiType } from "@/preload";
 
-const stuDataApi: StuDataApiType = (window as any).electron.stuData;
+const electronApi: ElectronApiType = (window as any).electron;
+const stuDataApi = electronApi.stuData;
+const dialogApi = electronApi.dialog;
 
 export function StudentPage() {
   const [curStuId, setCurStuId] = useState<string | undefined>(undefined);
@@ -28,41 +30,38 @@ export function StudentPage() {
     });
   }, []);
 
-  async function addStudent(
-    ...params: Parameters<typeof stuDataApi.addStudent>
-  ) {
+  async function addStudent() {
     try {
-      await stuDataApi.addStudent(...params);
-      toast.success("Student Added");
+      await stuDataApi.addStudent({ stuId: curStuId, name: curName });
+      dialogApi.showMessage({
+        type: "success",
+        description: "成功添加学生信息",
+      });
     } catch (e) {
-      toast.error(JSON.stringify(e));
+      dialogApi.showMessage({
+        type: "success",
+        description: "成功添加学生信息",
+      });
     }
   }
 
   async function removeStudent() {
     try {
-      toast("Removing Student...");
-      await axiosIns.post(
-        "/student/remove",
-        {},
-        {
-          params: {
-            stuId: curStuId,
-          },
-        },
-      );
-      toast.success("Student Removed");
+      await stuDataApi.removeStudent(curStuId);
+      dialogApi.showMessage({
+        type: "success",
+        description: "成功删除学生信息",
+      });
     } catch (e) {
-      toast.error(JSON.stringify(e));
+      dialogApi.showMessage({ type: "error", description: "删除学生信息失败" });
     }
   }
 
   async function allStudent() {
     try {
-      let res = await axiosIns.get("/student/all", {});
-      return res.data;
+      return await stuDataApi.getStudents();
     } catch (e) {
-      toast.error(JSON.stringify(e));
+      dialogApi.showMessage({ type: "error", description: "无法获取学生信息" });
     }
   }
 
