@@ -9,6 +9,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 
 import { openWindow } from "@/main/window_manager";
 import { registerDialogPopper } from "@/main/popper";
+import { registerStuDataInvokeHandler } from "@/main/info_manager";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -21,6 +22,7 @@ ipcMain.on("window:open:main", () => {
   openWindow("main");
 });
 registerDialogPopper();
+registerStuDataInvokeHandler();
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

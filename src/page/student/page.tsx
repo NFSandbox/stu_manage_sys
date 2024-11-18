@@ -25,43 +25,78 @@ export function StudentPage() {
   const [stuData, setStuData] = useState<any>(undefined);
 
   useEffect(function () {
-    allStudent().then((data) => {
-      setStuData(data);
-    });
+    refreshStudentsInfo();
   }, []);
+
+  async function refreshStudentsInfo() {
+    const stuInfo = await allStudent();
+    setStuData(stuInfo);
+  }
 
   async function addStudent() {
     try {
-      await stuDataApi.addStudent({ stuId: curStuId, name: curName });
+      const err = await stuDataApi.addStudent({
+        stuId: curStuId,
+        name: curName,
+      });
+      if (err) {
+        console.log(JSON.stringify(err));
+        throw err;
+      }
+      refreshStudentsInfo();
       dialogApi.showMessage({
         type: "success",
         description: "成功添加学生信息",
       });
     } catch (e) {
       dialogApi.showMessage({
-        type: "success",
-        description: "成功添加学生信息",
+        type: "error",
+        title: e.title ?? "操作失败",
+        description: e.description ?? "添加学生信息失败",
       });
     }
   }
-
   async function removeStudent() {
     try {
-      await stuDataApi.removeStudent(curStuId);
+      const err = await stuDataApi.removeStudent(curStuId);
+      if (err) {
+        console.log(JSON.stringify(err));
+        throw err;
+      }
+      refreshStudentsInfo();
       dialogApi.showMessage({
         type: "success",
         description: "成功删除学生信息",
       });
     } catch (e) {
-      dialogApi.showMessage({ type: "error", description: "删除学生信息失败" });
+      dialogApi.showMessage({
+        type: "error",
+        title: e.title ?? "操作失败",
+        description: e.description ?? "删除学生信息失败",
+      });
     }
   }
 
   async function allStudent() {
     try {
-      return await stuDataApi.getStudents();
+      const students = await stuDataApi.getStudents();
+      if (!students) {
+        const err = {
+          isError: true,
+          title: "获取失败",
+          description: "无法获取学生信息。",
+        };
+        console.log(JSON.stringify(err));
+        throw err;
+      }
+      return students;
     } catch (e) {
-      dialogApi.showMessage({ type: "error", description: "无法获取学生信息" });
+      dialogApi.showMessage({
+        type: "error",
+        title: e.title ?? "操作失败",
+        description: e.description ?? "无法获取学生信息",
+      });
+      return []; // Return an empty array to handle the failure gracefully
     }
   }
 
@@ -70,25 +105,25 @@ export function StudentPage() {
       expand
       className={classNames(classNames("flex-col gap-y-2 overflow-y-auto"))}
     >
-      <OperationBlock name="Student Management">
+      <OperationBlock name="学生信息管理">
         <Input
-          placeholder="Student ID"
+          placeholder="学生编号"
           onChange={function (e) {
             setCurStuId(e.target.value);
           }}
         ></Input>
         <Input
-          placeholder="Student Name"
+          placeholder="学生名称"
           onChange={function (e) {
             setCurName(e.target.value);
           }}
         ></Input>
         <FlexDiv className={classNames("flex-row gap-x-2")}>
           <Button type="primary" onClick={addStudent}>
-            Add Student
+            添加学生
           </Button>
           <Button danger onClick={removeStudent}>
-            Remove Student By ID
+            根据编号删除学生
           </Button>
         </FlexDiv>
       </OperationBlock>
@@ -104,12 +139,12 @@ export function StudentPage() {
           dataSource={stuData}
           columns={[
             {
-              title: "Student ID",
+              title: "学生编号",
               dataIndex: "stuId",
               key: "stuId",
             },
             {
-              title: "Name",
+              title: "学生姓名",
               dataIndex: "name",
               key: "name",
             },
