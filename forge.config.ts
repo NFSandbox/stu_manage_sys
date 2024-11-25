@@ -45,6 +45,30 @@ const config: ForgeConfig = {
               js: "./src/preload.ts",
             },
           },
+          {
+            html: "./src/page/student/index.html",
+            js: "./src/page/student/page.tsx",
+            name: "stu_window",
+            preload: {
+              js: "./src/preload.ts",
+            },
+          },
+          {
+            html: "./src/page/subject/index.html",
+            js: "./src/page/subject/page.tsx",
+            name: "sub_window",
+            preload: {
+              js: "./src/preload.ts",
+            },
+          },
+          {
+            html: "./src/page/selection/index.html",
+            js: "./src/page/selection/page.tsx",
+            name: "sel_window",
+            preload: {
+              js: "./src/preload.ts",
+            },
+          },
         ],
       },
     }),

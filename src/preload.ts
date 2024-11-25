@@ -6,6 +6,7 @@ import { contextBridge, ipcRenderer } from "electron";
 
 import { stuDataApi } from "@/main/info_manager";
 import { dialogApi } from "@/main/popper";
+import { windowMgrApi } from "@/main/window_manager_exposer";
 const windowApi = {
   open: {
     main: () => {
@@ -18,6 +19,7 @@ const api = {
   window: windowApi,
   dialog: dialogApi,
   stuData: stuDataApi,
+  windowMgr: windowMgrApi,
 };
 
 export type ElectronApiType = typeof api;

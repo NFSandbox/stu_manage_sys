@@ -12,9 +12,25 @@ const electronApi: ElectronApiType = (window as any).electron;
 
 export function LoginCard() {
   // const navigate = useNavigate();
-  function handleFinish() {
+  function handleFinish(data: any) {
     window.console.log("Login clicked");
-    electronApi.window.open.main();
+    if (data.username !== "admin") {
+      electronApi.dialog.showMessage({
+        type: "error",
+        title: "登录失败",
+        description: "用户名不存在",
+      });
+      return;
+    }
+    if (data.password !== "123") {
+      electronApi.dialog.showMessage({
+        type: "error",
+        title: "登录失败",
+        description: "密码错误",
+      });
+      return;
+    }
+    electronApi.windowMgr.openWindow("main");
   }
 
   return (

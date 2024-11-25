@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
 
 // Components
 import { FlexDiv } from "@/components/container";
@@ -254,3 +255,11 @@ export function SelectionPage() {
     </FlexDiv>
   );
 }
+
+const root = createRoot(document.body);
+console.log("In login.tsx");
+root.render(
+  <div className="flex h-screen w-screen flex-none flex-col items-center justify-start">
+    <SelectionPage />
+  </div>,
+);

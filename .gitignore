@@ -93,3 +93,6 @@ out/
 
 # node_modules backup
 /node_modules_bak
+
+# vscode counter
+/.VSCodeCounter

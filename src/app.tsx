@@ -13,19 +13,25 @@ import { FlexDiv } from "@/components/container";
 // Plugins
 import { createHashRouter, RouterProvider, Link } from "react-router-dom";
 import "./index.css";
+import { classNames } from "./tools/css_tools";
 
 const router = createHashRouter([
   {
     path: "/",
     element: (
-      <FlexDiv className="flex-col gap-2">
-        Hello world! With React Router!
+      <FlexDiv
+        expand
+        className={classNames(
+          "h-screen w-screen flex-none flex-col items-center justify-center gap-2 bg-blue-100",
+        )}
+      >
+        <h1 className="text-2xl font-bold">欢迎来到学生选课管理系统！</h1>
         <Link to="/login" target="_blank">
-          Login
+          登录页面
         </Link>
-        <Link to="/students">Students</Link>
-        <Link to="/subjects">Subjects</Link>
-        <Link to="/selections">Selections</Link>
+        <Link to="/students">管理学生信息</Link>
+        <Link to="/subjects">管理课程信息</Link>
+        <Link to="/selections">管理学生选课信息</Link>
       </FlexDiv>
     ),
   },

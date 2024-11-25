@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
 
 // Components
 import { Center, FlexDiv, Container } from "@/components/container";
@@ -154,3 +155,11 @@ export function StudentPage() {
     </FlexDiv>
   );
 }
+
+const root = createRoot(document.body);
+console.log("In login.tsx");
+root.render(
+  <div className="flex h-screen w-screen flex-none flex-col items-center justify-start">
+    <StudentPage />
+  </div>,
+);
